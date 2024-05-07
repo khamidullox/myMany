@@ -1,7 +1,8 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { Form, useActionData } from "react-router-dom";
 import InputForm from "../components/InputForm";
-import { addDoc, collection } from "firebase/firestore";
+import { collection } from "firebase/firestore";
+import { addDoc } from "firebase/firestore";
 import { GlobalContext } from "../hooks/useGlobal";
 import { db } from "../firebase/firebase";
 export let actionhome = async ({ request }) => {
@@ -16,8 +17,12 @@ function Home() {
   let action = useActionData();
 
   let handleSubmitHome = async () => {
+    console.log(action)
     const docRef = await addDoc(collection(db, "money"), action);
   };
+  useEffect(()=>{
+    handleSubmitHome()
+  },[action])
   let { data } = useContext(GlobalContext);
   return (
     <section className="h-full flex justify-around  py-5 md:flex-row flex-col">
